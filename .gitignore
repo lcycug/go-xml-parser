@@ -16,3 +16,5 @@
 
 .idea/
 .env
+/go-xml-parser
+/*.xlsx

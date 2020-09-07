@@ -3,11 +3,12 @@ package models
 import "strings"
 
 type Profile struct {
-	Apps        []ApplicationVisibilities `xml:"applicationVisibilities"`
-	Layouts     []LayoutAssignments       `xml:"layoutAssignments"`
-	Tabs        []TabVisibilities         `xml:"tabVisibilities"`
-	Permissions []UserPermissions         `xml:"userPermissions"`
-	License     UserLicense               `xml:"userLicense"`
+	Apps       []ApplicationVisibilities `xml:"applicationVisibilities,omitempty"`
+	Layouts    []LayoutAssignments       `xml:"layoutAssignments,omitempty"`
+	Tabs       []TabVisibilities         `xml:"tabVisibilities,omitempty"`
+	UserPerms  []UserPermissions         `xml:"userPermissions,omitempty"`
+	License    UserLicense               `xml:"userLicense,omitempty"`
+	FieldPerms []FieldPermissions        `xml:"fieldPermissions,omitempty"`
 }
 
 func (p Profile) Len() int { return len(p.Apps) }
