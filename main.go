@@ -48,9 +48,9 @@ func main() {
 			xls.SetCellStr("Application", "C1", "Visible")
 		}
 		for i, app := range p.Apps {
-			xls.SetCellStr("Application", "A"+strconv.Itoa(i+1), app.Application)
-			xls.SetCellBool("Application", "B"+strconv.Itoa(i+1), app.Default)
-			xls.SetCellBool("Application", "C"+strconv.Itoa(i+1), app.Visible)
+			xls.SetCellStr("Application", "A"+strconv.Itoa(i+2), app.Application)
+			xls.SetCellBool("Application", "B"+strconv.Itoa(i+2), app.Default)
+			xls.SetCellBool("Application", "C"+strconv.Itoa(i+2), app.Visible)
 		}
 		xls.DeleteSheet("Sheet1")
 		if err = xls.SaveAs(ss[0] + ".xlsx"); err != nil {
