@@ -1,13 +1,16 @@
 package main
 
 import (
+	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/joho/godotenv"
 	"github.com/lcycug/go-xml-parser/models"
 	"io/ioutil"
 	"log"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -46,6 +49,14 @@ func main() {
 			xls.SetCellStr("Application", "A1", "Application")
 			xls.SetCellStr("Application", "B1", "Default")
 			xls.SetCellStr("Application", "C1", "Visible")
+		}
+		_ = json.NewEncoder(os.Stdout).Encode(p.Apps)
+		fmt.Println()
+		fmt.Println()
+		sort.Sort(models.ByAppName{Apps: p.Apps})
+		_ = json.NewEncoder(os.Stdout).Encode(p.Apps)
+		if true {
+			return
 		}
 		for i, app := range p.Apps {
 			xls.SetCellStr("Application", "A"+strconv.Itoa(i+2), app.Application)
