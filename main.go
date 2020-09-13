@@ -63,6 +63,9 @@ func main() {
 		f, err := ioutil.ReadFile(os.Getenv("PROFILE_PATH") + fi.Name())
 		logFatal("Failed to read file:", err)
 
+		err = os.RemoveAll(filepath.Join([]string{os.Getenv("PROFILE_PATH"),
+			ss[0]}...))
+		logFatal("Failed to remove folder", err)
 		err = os.Mkdir(filepath.Join([]string{os.Getenv("PROFILE_PATH"),
 			ss[0]}...), os.ModePerm)
 		logFatal("Failed to create a new directory: ", err)
