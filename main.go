@@ -73,6 +73,7 @@ func main() {
 			sort.Sort(models.ByAppName{Apps: ap.Apps})
 			nf, err := xml.MarshalIndent(ap, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(ap.Apps[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -84,6 +85,7 @@ func main() {
 			sort.Sort(models.ByClassName{Classes: clp.Classes})
 			nf, err := xml.MarshalIndent(clp, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(clp.Classes[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -94,6 +96,7 @@ func main() {
 		if cup.Custom != nil {
 			nf, err := xml.MarshalIndent(cup, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(cup.Custom)), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -105,6 +108,7 @@ func main() {
 			sort.Sort(models.ByFieldName{FieldPerms: fip.FieldPerms})
 			nf, err := xml.MarshalIndent(fip, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(fip.FieldPerms[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -127,6 +131,7 @@ func main() {
 			sort.Sort(models.ByLayoutName{Layouts: lp.Layouts})
 			nf, err := xml.MarshalIndent(lp, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(lp.Layouts[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -137,6 +142,7 @@ func main() {
 		if len(ip.IPs) > 0 {
 			nf, err := xml.MarshalIndent(ip, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(ip.IPs[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -148,6 +154,7 @@ func main() {
 			sort.Sort(models.ByObjectName{ObjectPerms: op.ObjectPerms})
 			nf, err := xml.MarshalIndent(op, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(op.ObjectPerms[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -159,6 +166,7 @@ func main() {
 			sort.Sort(models.ByPageName{Pages: pp.Pages})
 			nf, err := xml.MarshalIndent(pp, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(pp.Pages[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -170,6 +178,7 @@ func main() {
 			sort.Sort(models.ByRecordTypeName{RecordTypes: rp.RecordTypes})
 			nf, err := xml.MarshalIndent(rp, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(rp.RecordTypes[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -181,6 +190,7 @@ func main() {
 			sort.Sort(models.ByTabName{Tabs: tp.Tabs})
 			nf, err := xml.MarshalIndent(tp, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(tp.Tabs[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -191,6 +201,7 @@ func main() {
 		if ulp.UserLicense != nil {
 			nf, err := xml.MarshalIndent(ulp, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(ulp.UserLicense)), nf, 0644)
 			logFatal("Failed to write xml:", err)
@@ -202,6 +213,7 @@ func main() {
 			sort.Sort(models.ByUserPermName{UserPerms: upp.UserPerms})
 			nf, err := xml.MarshalIndent(upp, "", "  ")
 			logFatal("Failed to marshal xml:", err)
+			nf = []byte(xml.Header + string(nf))
 			err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 				ss[0], getFileName(upp.UserPerms[0])), nf, 0644)
 			logFatal("Failed to write xml:", err)
