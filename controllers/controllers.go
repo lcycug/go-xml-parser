@@ -7,18 +7,34 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 
 	"github.com/lcycug/go-xml-parser/models/profile/apps"
 	"github.com/lcycug/go-xml-parser/models/profile/classes"
+	"github.com/lcycug/go-xml-parser/models/profile/custom"
 	"github.com/lcycug/go-xml-parser/models/profile/fieldPerms"
 	"github.com/lcycug/go-xml-parser/models/profile/flows"
+	"github.com/lcycug/go-xml-parser/models/profile/ips"
 	"github.com/lcycug/go-xml-parser/models/profile/layouts"
+	"github.com/lcycug/go-xml-parser/models/profile/license"
 	"github.com/lcycug/go-xml-parser/models/profile/objectPerms"
 	"github.com/lcycug/go-xml-parser/models/profile/pages"
 	"github.com/lcycug/go-xml-parser/models/profile/recordTypes"
 	"github.com/lcycug/go-xml-parser/models/profile/tabs"
 	"github.com/lcycug/go-xml-parser/models/profile/userPerms"
 	"github.com/lcycug/go-xml-parser/utils"
+)
+
+//Errors is a customized error struct type
+type Errors struct {
+	Type  int
+	Error error
+}
+
+const (
+	ERROR = iota - 2
+	WARN
+	SUCCESS
 )
 
 //CreateFile is used to create a xml file for a type of Profile component.
@@ -133,4 +149,56 @@ func CreateFile(pn string, f []byte, v interface{}) {
 	err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
 		pn, utils.GetFileName(n)), nf, 0644)
 	utils.LogFatal("Failed to write xml:", err)
+}
+
+//SplitProfile aims to split a Profile into pieces according to different
+//attributes.
+func SplitProfile(fi os.FileInfo) Errors {
+	var (
+		ap  apps.Profile
+		clp classes.Profile
+		cup custom.Profile
+		fip fieldPerms.Profile
+		flp flows.Profile
+		lp  layouts.Profile
+		ip  ips.Profile
+		op  objectPerms.Profile
+		pp  pages.Profile
+		rp  recordTypes.Profile
+		tp  tabs.Profile
+		ulp license.Profile
+		upp userPerms.Profile
+	)
+	ss := strings.Split(fi.Name(), ".")
+	fmt.Println("You are manipulating file:", fi.Name())
+	if len(ss) != 3 {
+		return Errors{
+			Type:  WARN,
+			Error: fmt.Errorf("invalid file: %s", fi.Name()),
+		}
+	}
+	f, err := ioutil.ReadFile(os.Getenv("PROFILE_PATH") + fi.Name())
+	utils.LogFatal("Failed to read file:", err)
+
+	err = os.RemoveAll(filepath.Join([]string{os.Getenv("PROFILE_PATH"),
+		ss[0]}...))
+	utils.LogFatal("Failed to remove folder", err)
+	err = os.Mkdir(filepath.Join([]string{os.Getenv("PROFILE_PATH"),
+		ss[0]}...), os.ModePerm)
+	utils.LogFatal("Failed to create a new directory: ", err)
+
+	CreateFile(ss[0], f, &ap)
+	CreateFile(ss[0], f, &clp)
+	CreateFile(ss[0], f, &cup)
+	CreateFile(ss[0], f, &fip)
+	CreateFile(ss[0], f, &flp)
+	CreateFile(ss[0], f, &lp)
+	CreateFile(ss[0], f, &ip)
+	CreateFile(ss[0], f, &op)
+	CreateFile(ss[0], f, &pp)
+	CreateFile(ss[0], f, &rp)
+	CreateFile(ss[0], f, &tp)
+	CreateFile(ss[0], f, &ulp)
+	CreateFile(ss[0], f, &upp)
+	return Errors{}
 }
