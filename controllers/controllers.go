@@ -6,9 +6,11 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"reflect"
 	"sort"
 	"strings"
 
+	"github.com/fatih/structs"
 	"github.com/lcycug/go-xml-parser/models/profile/apps"
 	"github.com/lcycug/go-xml-parser/models/profile/classes"
 	"github.com/lcycug/go-xml-parser/models/profile/custom"
@@ -37,11 +39,16 @@ const (
 	SUCCESS
 )
 
+const (
+	space = " "
+	dot   = "."
+)
+
 //CreateFile is used to create a xml file for a type of Profile component.
-//pn: Profile Name
+//ss: Split Profile Name parts, [Admin, profile-meta, xml]
 //f: File
 //v: One type of Profile component
-func CreateFile(pn string, f []byte, v interface{}) {
+func CreateFile(ss []string, f []byte, v interface{}) {
 	var sd interface{}
 	var n interface{}
 	err := xml.Unmarshal(f, &v)
@@ -142,12 +149,12 @@ func CreateFile(pn string, f []byte, v interface{}) {
 		return
 	}
 
-	nf, err := xml.MarshalIndent(sd, "", "  ")
+	nf, err := xml.MarshalIndent(sd, "", space+space+space+space)
 	utils.LogFatal("Failed to marshal xml:", err)
 
 	nf = []byte(xml.Header + string(nf))
 	err = ioutil.WriteFile(filepath.Join(os.Getenv("PROFILE_PATH"),
-		pn, utils.GetFileName(n)), nf, 0644)
+		ss[0], getFileName(n, ss[1:])), nf, 0644)
 	utils.LogFatal("Failed to write xml:", err)
 }
 
@@ -169,7 +176,7 @@ func SplitProfile(fi os.FileInfo) Errors {
 		ulp license.Profile
 		upp userPerms.Profile
 	)
-	ss := strings.Split(fi.Name(), ".")
+	ss := strings.Split(fi.Name(), dot)
 	fmt.Println("You are manipulating file:", fi.Name())
 	if len(ss) != 3 {
 		return Errors{
@@ -187,18 +194,35 @@ func SplitProfile(fi os.FileInfo) Errors {
 		ss[0]}...), os.ModePerm)
 	utils.LogFatal("Failed to create a new directory: ", err)
 
-	CreateFile(ss[0], f, &ap)
-	CreateFile(ss[0], f, &clp)
-	CreateFile(ss[0], f, &cup)
-	CreateFile(ss[0], f, &fip)
-	CreateFile(ss[0], f, &flp)
-	CreateFile(ss[0], f, &lp)
-	CreateFile(ss[0], f, &ip)
-	CreateFile(ss[0], f, &op)
-	CreateFile(ss[0], f, &pp)
-	CreateFile(ss[0], f, &rp)
-	CreateFile(ss[0], f, &tp)
-	CreateFile(ss[0], f, &ulp)
-	CreateFile(ss[0], f, &upp)
+	CreateFile(ss, f, &ap)
+	CreateFile(ss, f, &clp)
+	CreateFile(ss, f, &cup)
+	CreateFile(ss, f, &fip)
+	CreateFile(ss, f, &flp)
+	CreateFile(ss, f, &lp)
+	CreateFile(ss, f, &ip)
+	CreateFile(ss, f, &op)
+	CreateFile(ss, f, &pp)
+	CreateFile(ss, f, &rp)
+	CreateFile(ss, f, &tp)
+	CreateFile(ss, f, &ulp)
+	CreateFile(ss, f, &upp)
 	return Errors{}
+}
+
+//getFileName is a private method to retrieve a Name from a struct or a type.
+func getFileName(c interface{}, ss []string) string {
+	var n string
+	if structs.IsStruct(c) {
+		n = structs.Name(c)
+	} else {
+		n = reflect.TypeOf(c).String()
+	}
+	ns := strings.Split(n, dot)
+	if len(ns) > 1 {
+		n = ns[1]
+	} else {
+		n = ns[0]
+	}
+	return strings.ToLower(string(n[0])) + n[1:] + dot + strings.Join(ss, dot)
 }

@@ -20,11 +20,12 @@ func main() {
 	utils.LogFatal("Failed to read directory:", err)
 	for _, fi := range fileInfos {
 		cErr := controllers.SplitProfile(fi)
-		if cErr.Type == controllers.WARN {
+		switch cErr.Type {
+		case controllers.WARN:
 			continue
-		} else if cErr.Type == controllers.ERROR {
+		case controllers.ERROR:
 			utils.LogFatal("Failed to split Profile "+fi.Name(), cErr.Error)
-		} else if cErr.Type == controllers.SUCCESS {
+		case controllers.SUCCESS:
 			fmt.Printf("Spilit %s successfully", fi.Name())
 		}
 	}
