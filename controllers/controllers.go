@@ -34,7 +34,7 @@ type Errors struct {
 }
 
 const (
-	ERROR = iota - 2
+	ERROR = iota
 	WARN
 	SUCCESS
 )
