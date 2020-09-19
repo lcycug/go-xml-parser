@@ -9,6 +9,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/360EntSecGroup-Skylar/excelize/v2"
 	"github.com/fatih/structs"
 	"github.com/lcycug/go-xml-parser/models/profile/apps"
 	"github.com/lcycug/go-xml-parser/models/profile/classes"
@@ -27,7 +28,8 @@ import (
 //ss: Split Profile Name parts, [Admin, profile-meta, xml]
 //f: File
 //v: One type of Profile component
-func CreateXML(path string, ss []string, f []byte, v interface{}) {
+func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
+	v interface{}) {
 
 	var sd, n interface{}
 
@@ -43,6 +45,7 @@ func CreateXML(path string, ss []string, f []byte, v interface{}) {
 		sort.Sort(apps.ByName{Profile: *d})
 		n = d.Apps[0]
 		sd = interface{}(d)
+		createSheet(path, ss, f, d, xls)
 		break
 	case *classes.Profile:
 		d := v.(*classes.Profile)

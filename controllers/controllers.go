@@ -63,25 +63,21 @@ func SplitProfile(path string, fi os.FileInfo) utils.Errors {
 	err = os.Mkdir(filepath.Join([]string{path, ss[0]}...), os.ModePerm)
 	utils.LogFatal("Failed to create a new directory: ", err)
 
-	CreateFiles(path, ss, f, xls, &ap)
-	CreateFiles(path, ss, f, xls, &clp)
-	CreateFiles(path, ss, f, xls, &cup)
-	CreateFiles(path, ss, f, xls, &fip)
-	CreateFiles(path, ss, f, xls, &flp)
-	CreateFiles(path, ss, f, xls, &lp)
-	CreateFiles(path, ss, f, xls, &ip)
-	CreateFiles(path, ss, f, xls, &op)
-	CreateFiles(path, ss, f, xls, &pp)
-	CreateFiles(path, ss, f, xls, &rp)
-	CreateFiles(path, ss, f, xls, &tp)
-	CreateFiles(path, ss, f, xls, &ulp)
-	CreateFiles(path, ss, f, xls, &upp)
-	return utils.Errors{}
-}
+	CreateXML(path, ss, f, xls, &ap)
+	CreateXML(path, ss, f, xls, &clp)
+	CreateXML(path, ss, f, xls, &cup)
+	CreateXML(path, ss, f, xls, &fip)
+	CreateXML(path, ss, f, xls, &flp)
+	CreateXML(path, ss, f, xls, &lp)
+	CreateXML(path, ss, f, xls, &ip)
+	CreateXML(path, ss, f, xls, &op)
+	CreateXML(path, ss, f, xls, &pp)
+	CreateXML(path, ss, f, xls, &rp)
+	CreateXML(path, ss, f, xls, &tp)
+	CreateXML(path, ss, f, xls, &ulp)
+	CreateXML(path, ss, f, xls, &upp)
 
-// CreateFiles is used to create both xml and xls files.
-func CreateFiles(path string, ss []string, f []byte, xls *excelize.File,
-	v interface{}) {
-	CreateXML(path, ss, f, v)
-	CreateExcel(path, ss, f, v, xls)
+	xls.DeleteSheet("Sheet1")
+	_ = xls.SaveAs(filepath.Join(path, ss[0], ss[0]+".xlsx"))
+	return utils.Errors{}
 }

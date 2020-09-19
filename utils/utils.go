@@ -27,8 +27,8 @@ func LogFatal(cErr string, err error) {
 	}
 }
 
-// InstanceNextAlphabet is used to instance a alphabet generator.
-func InstanceNextAlphabet() func() string {
+// NewNextAlphabetInstance is used to instance a alphabet generator.
+func NewNextAlphabetInstance() func() string {
 	var i int32 = 64
 	return func() string {
 		i++
