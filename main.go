@@ -16,16 +16,22 @@ func init() {
 }
 
 func main() {
-	fileInfos, err := ioutil.ReadDir(os.Getenv("PROFILE_PATH"))
+	profilePath, ok := os.LookupEnv("PROFILE_PATH")
+	if !ok {
+		utils.LogFatal("Failed to find PROFILE_PATH in .env file.", nil)
+	}
+
+	fileInfos, err := ioutil.ReadDir(profilePath)
 	utils.LogFatal("Failed to read directory:", err)
+
 	for _, fi := range fileInfos {
-		cErr := controllers.SplitProfile(fi)
+		cErr := controllers.SplitProfile(profilePath, fi)
 		switch cErr.Type {
-		case controllers.WARN:
+		case utils.WARN:
 			continue
-		case controllers.ERROR:
+		case utils.ERROR:
 			utils.LogFatal("Failed to split Profile "+fi.Name(), cErr.Error)
-		case controllers.SUCCESS:
+		case utils.SUCCESS:
 			fmt.Printf("Spilit %s successfully", fi.Name())
 		}
 	}
