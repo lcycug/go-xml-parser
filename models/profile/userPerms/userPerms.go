@@ -13,12 +13,12 @@ type Profile struct {
 
 type UserPerms []*models.UserPermissions
 
-//Implement Sort interface
+// Implement Sort interface
 func (p UserPerms) Len() int      { return len(p) }
 func (p UserPerms) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
 
-//ByName implements sort.Interface by providing Less and using the Len and
-//Swap methods of the embedded UserPerms value.
+// ByName implements sort.Interface by providing Less and using the Len and
+// Swap methods of the embedded UserPerms value.
 type ByName struct{ Profile }
 
 func (n ByName) Less(i, j int) bool {

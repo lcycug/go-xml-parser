@@ -24,7 +24,7 @@ import (
 	"github.com/lcycug/go-xml-parser/utils"
 )
 
-//SplitProfile aims to split a Profile into pieces of components.
+// SplitProfile aims to split a Profile into pieces of components.
 func SplitProfile(path string, fi os.FileInfo) utils.Errors {
 	var (
 		ap  apps.Profile

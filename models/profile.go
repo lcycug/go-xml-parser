@@ -1,6 +1,6 @@
 package models
 
-//Profile is a collection of all settings for this Profile.
+// Profile is a collection of all settings for this Profile.
 type Profile struct {
 	Apps        []*ApplicationVisibilities `xml:"applicationVisibilities,omitempty"`
 	Classes     []ClassAccesses            `xml:"classAccesses,omitempty"`

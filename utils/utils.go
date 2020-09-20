@@ -4,7 +4,7 @@ import (
 	"log"
 )
 
-//Errors is a customized error struct type
+// Errors is a customized error struct type
 type Errors struct {
 	Type  int
 	Error error

@@ -1,8 +1,8 @@
 package models
 
-//FieldPermissions is used to store field permissions for this Profile.
+// FieldPermissions is used to store field permissions for this Profile.
 type FieldPermissions struct {
-	Editable bool   `xml:"editable"`
 	Name     string `xml:"field"`
+	Editable bool   `xml:"editable"`
 	Readable bool   `xml:"readable"`
 }

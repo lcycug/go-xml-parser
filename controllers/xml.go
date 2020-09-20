@@ -24,10 +24,10 @@ import (
 	"github.com/lcycug/go-xml-parser/utils"
 )
 
-//CreateXML is used to create a xml file for a type of Profile component.
-//ss: Split Profile Name parts, [Admin, profile-meta, xml]
-//f: File
-//v: One type of Profile component
+// CreateXML is used to create a xml file for a type of Profile component.
+// ss: Split Profile Name parts, [Admin, profile-meta, xml]
+// f: File
+// v: One type of Profile component
 func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 	v interface{}) {
 
@@ -45,7 +45,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(apps.ByName{Profile: *d})
 		n = d.Apps[0]
 		sd = interface{}(d)
-		createSheet(path, ss, f, d, xls)
+		createSheet(d, xls)
 		break
 	case *classes.Profile:
 		d := v.(*classes.Profile)
@@ -55,6 +55,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(classes.ByName{Profile: *d})
 		n = d.Classes[0]
 		sd = interface{}(d)
+		createSheet(d, xls)
 		break
 	case *fieldPerms.Profile:
 		d := v.(*fieldPerms.Profile)
@@ -64,6 +65,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(fieldPerms.ByName{Profile: *d})
 		n = d.FieldPerms[0]
 		sd = interface{}(d)
+		createSheet(d, xls)
 		break
 	case *flows.Profile:
 		d := v.(*flows.Profile)
@@ -73,6 +75,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(flows.ByName{Profile: *d})
 		n = d.Flows[0]
 		sd = interface{}(d)
+		createSheet(d, xls)
 		break
 	case *layouts.Profile:
 		d := v.(*layouts.Profile)
@@ -82,6 +85,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(layouts.ByName{Profile: *d})
 		n = d.Layouts[0]
 		sd = interface{}(d)
+		createSheet(d, xls)
 		break
 	case *objectPerms.Profile:
 		d := v.(*objectPerms.Profile)
@@ -91,6 +95,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(objectPerms.ByName{Profile: *d})
 		n = d.ObjectPerms[0]
 		sd = interface{}(d)
+		createSheet(d, xls)
 		break
 	case *pages.Profile:
 		d := v.(*pages.Profile)
@@ -100,6 +105,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(pages.ByName{Profile: *d})
 		n = d.Pages[0]
 		sd = interface{}(d)
+		createSheet(d, xls)
 		break
 	case *recordTypes.Profile:
 		d := v.(*recordTypes.Profile)
@@ -109,6 +115,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(recordTypes.ByName{Profile: *d})
 		n = d.RecordTypes[0]
 		sd = interface{}(d)
+		createSheet(d, xls)
 		break
 	case *tabs.Profile:
 		d := v.(*tabs.Profile)
@@ -118,6 +125,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(tabs.ByName{Profile: *d})
 		n = d.Tabs[0]
 		sd = interface{}(d)
+		createSheet(d, xls)
 		break
 	case *userPerms.Profile:
 		d := v.(*userPerms.Profile)
@@ -127,6 +135,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sort.Sort(userPerms.ByName{Profile: *d})
 		n = d.UserPerms[0]
 		sd = interface{}(d)
+		createSheet(d, xls)
 		break
 	default:
 		fmt.Println("No matched type found!")
@@ -143,7 +152,9 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 	utils.LogFatal("Failed to write xml:", err)
 }
 
-//getFileName is a private method to retrieve a Name from a struct or a type.
+// getFileName is a private method to retrieve a Name from a struct or a type.
+// c is struct or a type
+// ss is a slice of string
 func getXMLFileName(c interface{}, ss []string) string {
 	var n string
 	if structs.IsStruct(c) {

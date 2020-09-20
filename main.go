@@ -34,6 +34,5 @@ func main() {
 		case utils.SUCCESS:
 			fmt.Printf("Spilit %s successfully", fi.Name())
 		}
-		break
 	}
 }
