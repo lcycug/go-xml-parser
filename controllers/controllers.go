@@ -8,19 +8,18 @@ import (
 	"strings"
 
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
-	"github.com/lcycug/go-xml-parser/models/profile/apps"
-	"github.com/lcycug/go-xml-parser/models/profile/classes"
-	"github.com/lcycug/go-xml-parser/models/profile/custom"
-	"github.com/lcycug/go-xml-parser/models/profile/fieldPerms"
-	"github.com/lcycug/go-xml-parser/models/profile/flows"
-	"github.com/lcycug/go-xml-parser/models/profile/ips"
-	"github.com/lcycug/go-xml-parser/models/profile/layouts"
-	"github.com/lcycug/go-xml-parser/models/profile/license"
-	"github.com/lcycug/go-xml-parser/models/profile/objectPerms"
-	"github.com/lcycug/go-xml-parser/models/profile/pages"
-	"github.com/lcycug/go-xml-parser/models/profile/recordTypes"
-	"github.com/lcycug/go-xml-parser/models/profile/tabs"
-	"github.com/lcycug/go-xml-parser/models/profile/userPerms"
+	"github.com/lcycug/go-xml-parser/models/apps"
+	"github.com/lcycug/go-xml-parser/models/custom"
+	"github.com/lcycug/go-xml-parser/models/fieldPerms"
+	"github.com/lcycug/go-xml-parser/models/flows"
+	"github.com/lcycug/go-xml-parser/models/ips"
+	"github.com/lcycug/go-xml-parser/models/layouts"
+	"github.com/lcycug/go-xml-parser/models/license"
+	"github.com/lcycug/go-xml-parser/models/objectPerms"
+	"github.com/lcycug/go-xml-parser/models/pages"
+	"github.com/lcycug/go-xml-parser/models/recordTypes"
+	"github.com/lcycug/go-xml-parser/models/tabs"
+	"github.com/lcycug/go-xml-parser/models/userPerms"
 	"github.com/lcycug/go-xml-parser/utils"
 )
 
@@ -28,7 +27,7 @@ import (
 func SplitProfile(path string, fi os.FileInfo) utils.Errors {
 	var (
 		ap  apps.Profile
-		clp classes.Profile
+		clp apps.Profile
 		cup custom.Profile
 		fip fieldPerms.Profile
 		flp flows.Profile
