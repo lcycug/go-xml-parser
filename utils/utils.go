@@ -1,33 +1,6 @@
 package utils
 
-import (
-	"log"
-)
-
-// Errors is a customized error struct type
-type Errors struct {
-	Type  int
-	Error error
-}
-
-const (
-	ERROR = iota
-	WARN
-	SUCCESS
-)
-
-const (
-	SPACE = " "
-	DOT   = "."
-)
-
-func LogFatal(cErr string, err error) {
-	if err != nil {
-		log.Fatal(cErr, err)
-	}
-}
-
-// NewNextAlphabetInstance is used to instance a alphabet generator.
+// NewNextAlphabetInstance is used to instance an alphabet generator.
 func NewNextAlphabetInstance() func() string {
 	var i int32 = 64
 	return func() string {
