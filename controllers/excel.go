@@ -140,6 +140,19 @@ func setValues(xls *excelize.File, sheet string, data interface{}) {
 				v.Enabled)
 			utils.LogFatal("Failed to set cell value: ", err)
 		}
+	case *layouts.Profile:
+		nextAlphabet = utils.NewNextAlphabetInstance()
+		for _, f := range structs.Fields(models.LayoutAssignments{}) {
+			err = xls.SetCellValue(sheet, nextAlphabet()+"1", f.Name())
+			utils.LogFatal("Failed to set cell value: "+f.Name(), err)
+		}
+		d := data.(*layouts.Profile)
+		for i, v := range d.Layouts {
+			nextAlphabet = utils.NewNextAlphabetInstance()
+			err = xls.SetCellStr(sheet, nextAlphabet()+strconv.Itoa(i+2),
+				v.Name)
+			utils.LogFatal("Failed to set cell value: ", err)
+		}
 	case *objectPerms.Profile:
 		nextAlphabet = utils.NewNextAlphabetInstance()
 		for _, f := range structs.Fields(models.ObjectPermissions{}) {
@@ -171,17 +184,20 @@ func setValues(xls *excelize.File, sheet string, data interface{}) {
 				v.ViewAllRecords)
 			utils.LogFatal("Failed to set cell value: ", err)
 		}
-	case *layouts.Profile:
+	case *pages.Profile:
 		nextAlphabet = utils.NewNextAlphabetInstance()
-		for _, f := range structs.Fields(models.LayoutAssignments{}) {
+		for _, f := range structs.Fields(models.PageAccesses{}) {
 			err = xls.SetCellValue(sheet, nextAlphabet()+"1", f.Name())
 			utils.LogFatal("Failed to set cell value: "+f.Name(), err)
 		}
-		d := data.(*layouts.Profile)
-		for i, v := range d.Layouts {
+		d := data.(*pages.Profile)
+		for i, v := range d.Pages {
 			nextAlphabet = utils.NewNextAlphabetInstance()
 			err = xls.SetCellStr(sheet, nextAlphabet()+strconv.Itoa(i+2),
 				v.Name)
+			utils.LogFatal("Failed to set cell value: ", err)
+			err = xls.SetCellBool(sheet, nextAlphabet()+strconv.Itoa(i+2),
+				v.Enabled)
 			utils.LogFatal("Failed to set cell value: ", err)
 		}
 	case *recordTypes.Profile:
