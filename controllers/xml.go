@@ -44,8 +44,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(apps.ByName{Profile: *d})
 		n = d.Apps[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	case *classes.Profile:
 		d := v.(*classes.Profile)
@@ -54,8 +53,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(classes.ByName{Profile: *d})
 		n = d.Classes[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	case *fieldPerms.Profile:
 		d := v.(*fieldPerms.Profile)
@@ -64,8 +62,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(fieldPerms.ByName{Profile: *d})
 		n = d.FieldPerms[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	case *flows.Profile:
 		d := v.(*flows.Profile)
@@ -74,8 +71,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(flows.ByName{Profile: *d})
 		n = d.Flows[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	case *layouts.Profile:
 		d := v.(*layouts.Profile)
@@ -84,8 +80,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(layouts.ByName{Profile: *d})
 		n = d.Layouts[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	case *objectPerms.Profile:
 		d := v.(*objectPerms.Profile)
@@ -94,8 +89,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(objectPerms.ByName{Profile: *d})
 		n = d.ObjectPerms[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	case *pages.Profile:
 		d := v.(*pages.Profile)
@@ -104,8 +98,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(pages.ByName{Profile: *d})
 		n = d.Pages[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	case *recordTypes.Profile:
 		d := v.(*recordTypes.Profile)
@@ -114,8 +107,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(recordTypes.ByName{Profile: *d})
 		n = d.RecordTypes[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	case *tabs.Profile:
 		d := v.(*tabs.Profile)
@@ -124,8 +116,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(tabs.ByName{Profile: *d})
 		n = d.Tabs[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	case *userPerms.Profile:
 		d := v.(*userPerms.Profile)
@@ -134,13 +125,14 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		}
 		sort.Sort(userPerms.ByName{Profile: *d})
 		n = d.UserPerms[0]
-		sd = interface{}(d)
-		createSheet(d, xls)
+		sd = d
 		break
 	default:
 		fmt.Println("No matched type found!")
 		return
 	}
+
+	createSheet(sd, xls)
 
 	nf, err := xml.MarshalIndent(sd, "", utils.SPACE+utils.SPACE+utils.
 		SPACE+utils.SPACE)
