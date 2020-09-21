@@ -22,5 +22,5 @@ func (f Flows) Swap(i, j int) { f[i], f[j] = f[j], f[i] }
 type ByName struct{ Profile }
 
 func (n ByName) Less(i, j int) bool {
-	return strings.Compare(n.Profile.Flows[i].Name, n.Profile.Flows[j].Name) < 0
+	return strings.Compare(n.Profile.Flows[i].Flow, n.Profile.Flows[j].Flow) < 0
 }
