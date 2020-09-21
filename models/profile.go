@@ -61,7 +61,7 @@ type LoginIPRanges struct {
 
 // ObjectPermissions is used to store a list of permissions for a SObject.
 type ObjectPermissions struct {
-	Name             string `xml:"object"`
+	Object           string `xml:"object"`
 	AllowCreate      bool   `xml:"allowCreate"`
 	AllowDelete      bool   `xml:"allowDelete"`
 	AllowEdit        bool   `xml:"allowEdit"`
