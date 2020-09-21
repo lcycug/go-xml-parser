@@ -115,7 +115,7 @@ func setValues(xls *excelize.File, sheet string, data interface{}) {
 		for i, v := range d.FieldPerms {
 			nextAlphabet = utils.NewNextAlphabetInstance()
 			err = xls.SetCellStr(sheet, nextAlphabet()+strconv.Itoa(i+2),
-				v.Name)
+				v.Field)
 			utils.LogFatal("Failed to set cell value: ", err)
 			err = xls.SetCellBool(sheet, nextAlphabet()+strconv.Itoa(i+2),
 				v.Editable)

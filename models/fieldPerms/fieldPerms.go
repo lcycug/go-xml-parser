@@ -22,6 +22,6 @@ func (p FieldPerms) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
 type ByName struct{ Profile }
 
 func (n ByName) Less(i, j int) bool {
-	return strings.Compare(n.Profile.FieldPerms[i].Name,
-		n.Profile.FieldPerms[j].Name) < 0
+	return strings.Compare(n.Profile.FieldPerms[i].Field,
+		n.Profile.FieldPerms[j].Field) < 0
 }

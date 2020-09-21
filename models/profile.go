@@ -36,7 +36,7 @@ type Custom bool
 
 // FieldPermissions is used to store field permissions for this Profile.
 type FieldPermissions struct {
-	Name     string `xml:"field"`
+	Field    string `xml:"field"`
 	Editable bool   `xml:"editable"`
 	Readable bool   `xml:"readable"`
 }
