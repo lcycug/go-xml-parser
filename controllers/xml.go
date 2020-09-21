@@ -128,7 +128,7 @@ func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
 		sd = d
 		break
 	default:
-		fmt.Println("No matched type found!")
+		fmt.Printf("No matched type \"%T\" of \"%s\" found!\n", v, ss[0])
 		return
 	}
 
