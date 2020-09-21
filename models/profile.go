@@ -85,7 +85,7 @@ type RecordTypeVisibilities struct {
 
 // TabVisibilities is used to store visibilities for Tabs
 type TabVisibilities struct {
-	Name       string `xml:"tab"`
+	Tab        string `xml:"tab"`
 	Visibility string `xml:"visibility"`
 }
 
