@@ -47,9 +47,9 @@ type FlowAccesses struct {
 	Enabled bool   `xml:"enabled"`
 }
 
-// LayoutAssignments is used to tell if a Name is specified for a Profile
+// LayoutAssignments is used to tell if a Layout is specified for a Profile
 type LayoutAssignments struct {
-	Name string `xml:"layout"`
+	Layout string `xml:"layout"`
 }
 
 // LoginIPRanges is used to specify an available IP range for a specific

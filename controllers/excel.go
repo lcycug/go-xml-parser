@@ -150,7 +150,7 @@ func setValues(xls *excelize.File, sheet string, data interface{}) {
 		for i, v := range d.Layouts {
 			nextAlphabet = utils.NewNextAlphabetInstance()
 			err = xls.SetCellStr(sheet, nextAlphabet()+strconv.Itoa(i+2),
-				v.Name)
+				v.Layout)
 			utils.LogFatal("Failed to set cell value: ", err)
 		}
 	case *objectPerms.Profile:

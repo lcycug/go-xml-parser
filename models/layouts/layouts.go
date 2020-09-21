@@ -22,6 +22,6 @@ func (l Layouts) Swap(i, j int) { l[i], l[j] = l[j], l[i] }
 type ByName struct{ Profile }
 
 func (n ByName) Less(i, j int) bool {
-	return strings.Compare(n.Profile.Layouts[i].Name,
-		n.Profile.Layouts[j].Name) < 0
+	return strings.Compare(n.Profile.Layouts[i].Layout,
+		n.Profile.Layouts[j].Layout) < 0
 }
