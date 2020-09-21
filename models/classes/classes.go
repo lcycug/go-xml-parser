@@ -22,6 +22,6 @@ func (c Classes) Swap(i, j int) { c[i], c[j] = c[j], c[i] }
 type ByName struct{ Profile }
 
 func (n ByName) Less(i, j int) bool {
-	return strings.Compare(n.Profile.Classes[i].Name,
-		n.Profile.Classes[j].Name) < 0
+	return strings.Compare(n.Profile.Classes[i].ApexClass,
+		n.Profile.Classes[j].ApexClass) < 0
 }
