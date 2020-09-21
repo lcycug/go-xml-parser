@@ -22,5 +22,5 @@ func (a Apps) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 type ByName struct{ Profile }
 
 func (n ByName) Less(i, j int) bool {
-	return strings.Compare(n.Profile.Apps[i].Name, n.Profile.Apps[j].Name) < 0
+	return strings.Compare(n.Profile.Apps[i].Application, n.Profile.Apps[j].Application) < 0
 }

@@ -80,7 +80,7 @@ func setValues(xls *excelize.File, sheet string, data interface{}) {
 		for i, v := range d.Apps {
 			nextAlphabet = utils.NewNextAlphabetInstance()
 			err = xls.SetCellStr(sheet, nextAlphabet()+strconv.Itoa(i+2),
-				v.Name)
+				v.Application)
 			utils.LogFatal("Failed to set cell value: ", err)
 			err = xls.SetCellBool(sheet, nextAlphabet()+strconv.Itoa(i+2),
 				v.Default)
