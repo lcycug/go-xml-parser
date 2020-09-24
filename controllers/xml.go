@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/xml"
-	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"reflect"
@@ -11,6 +10,7 @@ import (
 
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
 	"github.com/fatih/structs"
+	"github.com/lcycug/go-xml-parser/models"
 	"github.com/lcycug/go-xml-parser/models/apps"
 	"github.com/lcycug/go-xml-parser/models/classes"
 	"github.com/lcycug/go-xml-parser/models/fieldPerms"
@@ -28,123 +28,64 @@ import (
 // ss: Split Profile Name parts, [Admin, profile-meta, xml]
 // f: File
 // v: One type of Profile component
-func CreateXML(path string, ss []string, f []byte, xls *excelize.File,
-	v interface{}) {
+func CreateXML(path string, ss []string, f []byte, xls *excelize.File, pn int) {
 
-	var sd, n interface{}
+	var p models.Profile
 
-	err := xml.Unmarshal(f, &v)
-	utils.LogFatal("Failed to unmarshal xml:", err)
-
-	switch v.(type) {
-	case *apps.Profile:
-		d := v.(*apps.Profile)
-		if len(d.Apps) == 0 {
-			return
-		}
-		sort.Sort(apps.ByName{Profile: *d})
-		n = d.Apps[0]
-		sd = d
+	switch pn {
+	case utils.AppProfile:
+		p = new(apps.Profile)
 		break
-	case *classes.Profile:
-		d := v.(*classes.Profile)
-		if len(d.Classes) == 0 {
-			return
-		}
-		sort.Sort(classes.ByName{Profile: *d})
-		n = d.Classes[0]
-		sd = d
+	case utils.ClassProfile:
+		p = new(classes.Profile)
 		break
-	case *fieldPerms.Profile:
-		d := v.(*fieldPerms.Profile)
-		if len(d.FieldPerms) == 0 {
-			return
-		}
-		sort.Sort(fieldPerms.ByName{Profile: *d})
-		n = d.FieldPerms[0]
-		sd = d
+	case utils.FieldPermProfile:
+		p = new(fieldPerms.Profile)
 		break
-	case *flows.Profile:
-		d := v.(*flows.Profile)
-		if len(d.Flows) == 0 {
-			return
-		}
-		sort.Sort(flows.ByName{Profile: *d})
-		n = d.Flows[0]
-		sd = d
+	case utils.FlowProfile:
+		p = new(flows.Profile)
 		break
-	case *layouts.Profile:
-		d := v.(*layouts.Profile)
-		if len(d.Layouts) == 0 {
-			return
-		}
-		sort.Sort(layouts.ByName{Profile: *d})
-		n = d.Layouts[0]
-		sd = d
+	case utils.LayoutProfile:
+		p = new(layouts.Profile)
 		break
-	case *objectPerms.Profile:
-		d := v.(*objectPerms.Profile)
-		if len(d.ObjectPerms) == 0 {
-			return
-		}
-		sort.Sort(objectPerms.ByName{Profile: *d})
-		n = d.ObjectPerms[0]
-		sd = d
+	case utils.ObjectPermProfile:
+		p = new(objectPerms.Profile)
 		break
-	case *pages.Profile:
-		d := v.(*pages.Profile)
-		if len(d.Pages) == 0 {
-			return
-		}
-		sort.Sort(pages.ByName{Profile: *d})
-		n = d.Pages[0]
-		sd = d
+	case utils.PageProfile:
+		p = new(pages.Profile)
 		break
-	case *recordTypes.Profile:
-		d := v.(*recordTypes.Profile)
-		if len(d.RecordTypes) == 0 {
-			return
-		}
-		sort.Sort(recordTypes.ByName{Profile: *d})
-		n = d.RecordTypes[0]
-		sd = d
+	case utils.RecordTypeProfile:
+		p = new(recordTypes.Profile)
 		break
-	case *tabs.Profile:
-		d := v.(*tabs.Profile)
-		if len(d.Tabs) == 0 {
-			return
-		}
-		sort.Sort(tabs.ByName{Profile: *d})
-		n = d.Tabs[0]
-		sd = d
+	case utils.TabProfile:
+		p = new(tabs.Profile)
 		break
-	case *userPerms.Profile:
-		d := v.(*userPerms.Profile)
-		if len(d.UserPerms) == 0 {
-			return
-		}
-		sort.Sort(userPerms.ByName{Profile: *d})
-		n = d.UserPerms[0]
-		sd = d
+	case utils.UserPermProfile:
+		p = new(userPerms.Profile)
 		break
 	default:
-		fmt.Printf("No matched type \"%T\" of \"%s\" found!\n", v, ss[0])
 		return
 	}
 
-	createSheet(sd, xls)
+	utils.LogFatal("Failed to marshal xml:", xml.Unmarshal(f, &p))
+	if p.Len() == 0 {
+		return
+	}
+	sort.Sort(p)
+	n := getXMLFileName(p.First(), ss[1:])
 
-	nf, err := xml.MarshalIndent(sd, "", utils.SPACE+utils.SPACE+utils.
+	createSheet(p, xls)
+
+	nf, err := xml.MarshalIndent(p, "", utils.SPACE+utils.SPACE+utils.
 		SPACE+utils.SPACE)
 	utils.LogFatal("Failed to marshal xml:", err)
 
 	nf = []byte(xml.Header + string(nf))
-	err = ioutil.WriteFile(filepath.Join(path, ss[0], getXMLFileName(n,
-		ss[1:])), nf, 0644)
+	err = ioutil.WriteFile(filepath.Join(path, ss[0], n), nf, 0644)
 	utils.LogFatal("Failed to write xml:", err)
 }
 
-// getFileName is a private method to retrieve a Name from a struct or a type.
+// getXMLFileName is a private method to retrieve a Name from a struct or a type.
 // c is struct or a type
 // ss is a slice of string
 func getXMLFileName(c interface{}, ss []string) string {

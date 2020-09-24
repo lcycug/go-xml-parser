@@ -3,25 +3,47 @@ package fieldPerms
 import (
 	"strings"
 
+	"github.com/fatih/structs"
 	"github.com/lcycug/go-xml-parser/models"
 )
 
 type Profile struct {
-	XMLNS      string `xml:"xmlns,attr,omitempty"`
-	FieldPerms `xml:"fieldPermissions,omitempty"`
+	XMLNS      string                     `xml:"xmlns,attr,omitempty"`
+	FieldPerms []*models.FieldPermissions `xml:"fieldPermissions,omitempty"`
 }
 
-type FieldPerms []*models.FieldPermissions
-
-// Implement Sort interface
-func (p FieldPerms) Len() int      { return len(p) }
-func (p FieldPerms) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
-
-// ByName implements sort.Interface by providing Less and using the Len and
+// Profile implements sort.Interface by providing Less and using the Len and
 // Swap methods of the embedded FieldPerms value.
-type ByName struct{ Profile }
+func (p Profile) Len() int { return len(p.FieldPerms) }
+func (p Profile) Less(i, j int) bool {
+	return strings.Compare(p.FieldPerms[i].Field, p.FieldPerms[j].Field) < 0
+}
+func (p Profile) Swap(i, j int) {
+	p.FieldPerms[i], p.FieldPerms[j] = p.FieldPerms[j], p.FieldPerms[i]
+}
 
-func (n ByName) Less(i, j int) bool {
-	return strings.Compare(n.Profile.FieldPerms[i].Field,
-		n.Profile.FieldPerms[j].Field) < 0
+// This method is used to get the first element of the Profile.
+func (p Profile) First() interface{} {
+	if p.Len() > 0 {
+		return p.FieldPerms[0]
+	} else {
+		return nil
+	}
+}
+
+// This method is used to get the Name of this component as the tab name of
+// the excel workbook.
+func (p Profile) Name() string {
+	return structs.Name(p.First())
+}
+
+// Get all values mapped with fields.
+func (p Profile) Values() map[*structs.Field][]interface{} {
+	var v = make(map[*structs.Field][]interface{})
+	for i, f := range structs.Fields(p.First()) {
+		for _, a := range p.FieldPerms {
+			v[f] = append(v[f], structs.Values(a)[i])
+		}
+	}
+	return v
 }
